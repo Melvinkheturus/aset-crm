@@ -1,0 +1,72 @@
+@import "tailwindcss";
+
+:root {
+  --background: #09090c;
+  --foreground: #f4f4f6;
+  --card: #121217;
+  --card-foreground: #f4f4f6;
+  --popover: #121217;
+  --popover-foreground: #f4f4f6;
+  --primary: #990000;
+  --primary-hover: #b91c1c;
+  --primary-foreground: #ffffff;
+  --secondary: #1a1a24;
+  --secondary-foreground: #e4e4e7;
+  --muted: #1e1e28;
+  --muted-foreground: #9ca3af;
+  --accent: #271418;
+  --accent-foreground: #fecdd3;
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+  --border: #23232f;
+  --input: #23232f;
+  --ring: #990000;
+  --radius: 0.75rem;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--foreground);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  min-height: 100vh;
+}
+
+/* Glass frost effect matching mergex-os */
+.glass-frost-card {
+  background: rgba(18, 18, 23, 0.75);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.07);
+}
+
+.glass-frost-card:hover {
+  border-color: rgba(153, 0, 0, 0.25);
+}
+
+.glass-header {
+  background: rgba(9, 9, 12, 0.85);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Subtle Crimson Gradient Glow */
+.crimson-glow {
+  box-shadow: 0 0 35px -5px rgba(153, 0, 0, 0.35);
+}
+
+/* Custom modern scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.12);
+  border-radius: 9999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(153, 0, 0, 0.5);
+}
