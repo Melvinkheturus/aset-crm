@@ -1,13 +1,15 @@
 "use client";
 
 import { useState } from "react";
-import { Search, Plus, Download, CheckCircle2, RefreshCw } from "lucide-react";
+import { Search, Plus, Download, CheckCircle2, RefreshCw, User, Shield } from "lucide-react";
+import { useRole } from "@/context/role-context";
 
 interface TopNavProps {
   onLogVisitClick?: () => void;
 }
 
 export function TopNav({ onLogVisitClick }: TopNavProps) {
+  const { role, toggleRole, executiveName } = useRole();
   const [syncing, setSyncing] = useState(false);
 
   const handleSync = async () => {
@@ -30,11 +32,31 @@ export function TopNav({ onLogVisitClick }: TopNavProps) {
       </div>
 
       {/* Right Controls */}
-      <div className="flex items-center gap-3">
-        {/* Supabase Realtime Status Pill */}
-        <div className="hidden sm:flex items-center gap-2 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-3 py-1 text-[11px] font-medium text-emerald-400">
-          <span className="h-2 w-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Supabase Connected</span>
+      <div className="flex items-center gap-2.5">
+        {/* Role Toggle Pill */}
+        <button
+          onClick={toggleRole}
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#262638] bg-[#14141c] hover:bg-[#1a1a24] text-xs font-semibold transition-all text-zinc-200"
+          title="Click to switch role between Executive and Manager"
+        >
+          {role === "manager" ? (
+            <>
+              <Shield className="h-3.5 w-3.5 text-[#ff6666]" />
+              <span>Manager Console</span>
+            </>
+          ) : (
+            <>
+              <User className="h-3.5 w-3.5 text-[#ff6666]" />
+              <span>Executive: {executiveName}</span>
+            </>
+          )}
+          <span className="text-[10px] text-zinc-500 ml-1 underline decoration-dotted">Switch</span>
+        </button>
+
+        {/* Sheet Sync Pill */}
+        <div className="hidden md:flex items-center gap-1.5 rounded-full border border-emerald-500/30 bg-emerald-500/10 px-2.5 py-1 text-[11px] font-medium text-emerald-400">
+          <span className="h-1.5 w-1.5 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Sheet Synced</span>
         </div>
 
         {/* Refresh Sync button */}

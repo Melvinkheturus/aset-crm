@@ -17,13 +17,27 @@ import {
   Plus
 } from "lucide-react";
 import { supabase } from "@/lib/supabase";
+import { useSearchParams } from "next/navigation";
 import { AddPlanModal } from "@/components/plans/add-plan-modal";
 import { StartVisitModal } from "@/components/dashboard/start-visit-modal";
 
 export default function ItineraryPage() {
+  const searchParams = useSearchParams();
+  const tabParam = searchParams.get("tab");
+
   const [plans, setPlans] = useState<any[]>([]);
   const [schools, setSchools] = useState<any[]>([]);
   const [viewMode, setViewMode] = useState<"daily" | "weekly" | "monthly">("daily");
+
+  useEffect(() => {
+    if (tabParam === "weekly") {
+      setViewMode("weekly");
+    } else if (tabParam === "monthly") {
+      setViewMode("monthly");
+    } else if (tabParam === "today") {
+      setViewMode("daily");
+    }
+  }, [tabParam]);
   const [selectedDate, setSelectedDate] = useState("2026-09-05");
   const [loading, setLoading] = useState(true);
 
