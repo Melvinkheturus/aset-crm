@@ -4,6 +4,8 @@ import { useState } from "react";
 import { Search, Plus, Download, CheckCircle2, RefreshCw, User, Shield } from "lucide-react";
 import { useRole } from "@/context/role-context";
 
+import { ThemeToggle } from "@/components/layout/theme-toggle";
+
 interface TopNavProps {
   onLogVisitClick?: () => void;
 }
@@ -20,23 +22,26 @@ export function TopNav({ onLogVisitClick }: TopNavProps) {
   };
 
   return (
-    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-[#22222d] bg-[#09090c]/80 px-6 backdrop-blur-xl">
+    <header className="sticky top-0 z-20 flex h-16 w-full items-center justify-between border-b border-[#22222d] dark:border-[#22222d] border-zinc-200 bg-[#09090c]/80 dark:bg-[#09090c]/80 bg-white/90 px-6 backdrop-blur-xl transition-colors">
       {/* Search Input */}
       <div className="relative w-full max-w-md">
         <Search className="absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-zinc-400" />
         <input
           type="text"
           placeholder="Search 201 schools, visit notes, contacts, or areas..."
-          className="w-full rounded-xl border border-[#23232f] bg-[#121217] py-2 pl-10 pr-4 text-xs text-zinc-100 placeholder-zinc-500 focus:border-[#990000] focus:outline-none focus:ring-1 focus:ring-[#990000] transition-all"
+          className="w-full rounded-xl border border-[#23232f] dark:border-[#23232f] border-zinc-200 bg-[#121217] dark:bg-[#121217] bg-zinc-50 py-2 pl-10 pr-4 text-xs text-zinc-100 dark:text-zinc-100 text-zinc-900 placeholder-zinc-500 focus:border-[#990000] focus:outline-none focus:ring-1 focus:ring-[#990000] transition-all"
         />
       </div>
 
       {/* Right Controls */}
       <div className="flex items-center gap-2.5">
+        {/* Theme Toggle Button (Image 1 Capsule style) */}
+        <ThemeToggle />
+
         {/* Role Toggle Pill */}
         <button
           onClick={toggleRole}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#262638] bg-[#14141c] hover:bg-[#1a1a24] text-xs font-semibold transition-all text-zinc-200"
+          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl border border-[#262638] dark:border-[#262638] border-zinc-200 bg-[#14141c] dark:bg-[#14141c] bg-zinc-100 hover:bg-[#1a1a24] text-xs font-semibold transition-all text-zinc-200 dark:text-zinc-200 text-zinc-800"
           title="Click to switch role between Executive and Manager"
         >
           {role === "manager" ? (

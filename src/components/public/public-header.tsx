@@ -4,6 +4,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
+import { ThemeToggle } from "@/components/layout/theme-toggle";
 
 export function PublicHeader() {
   const pathname = usePathname();
@@ -51,8 +52,10 @@ export function PublicHeader() {
           })}
         </nav>
 
-        {/* Access CRM Action */}
+        {/* Actions */}
         <div className="flex items-center gap-3">
+          <ThemeToggle />
+
           <Link
             href="/login"
             className="flex items-center gap-2 rounded-xl bg-[#990000] hover:bg-[#b91c1c] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#990000]/30 transition-all hover:scale-[1.02] border border-rose-500/30"

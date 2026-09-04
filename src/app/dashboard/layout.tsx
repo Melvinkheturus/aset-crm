@@ -7,11 +7,14 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { LogVisitModal } from "@/components/dashboard/log-visit-modal";
 import { supabase } from "@/lib/supabase";
 
+import { useTheme } from "@/context/theme-context";
+
 export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { theme } = useTheme();
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [schools, setSchools] = useState<any[]>([]);
 
@@ -28,7 +31,13 @@ export default function DashboardLayout({
   }, []);
 
   return (
-    <div className="flex h-screen w-full overflow-hidden bg-[#09090c]">
+    <div
+      className={`flex h-screen w-full overflow-hidden transition-colors ${
+        theme === "dark"
+          ? "dark-ambient-canvas text-[#f4f4f6]"
+          : "light-ambient-canvas text-zinc-900"
+      }`}
+    >
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <TopNav onLogVisitClick={() => setIsModalOpen(true)} />
