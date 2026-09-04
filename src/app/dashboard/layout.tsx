@@ -7,8 +7,6 @@ import { BottomNav } from "@/components/layout/bottom-nav";
 import { LogVisitModal } from "@/components/dashboard/log-visit-modal";
 import { supabase } from "@/lib/supabase";
 
-import { RoleProvider } from "@/context/role-context";
-
 export default function DashboardLayout({
   children,
 }: {
@@ -30,8 +28,7 @@ export default function DashboardLayout({
   }, []);
 
   return (
-    <RoleProvider>
-      <div className="flex h-screen w-full overflow-hidden bg-[#09090c]">
+    <div className="flex h-screen w-full overflow-hidden bg-[#09090c]">
       <Sidebar />
       <div className="flex flex-1 flex-col overflow-hidden">
         <TopNav onLogVisitClick={() => setIsModalOpen(true)} />
@@ -50,6 +47,5 @@ export default function DashboardLayout({
         schools={schools}
       />
     </div>
-    </RoleProvider>
   );
 }
