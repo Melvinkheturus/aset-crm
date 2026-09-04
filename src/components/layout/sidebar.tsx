@@ -319,337 +319,216 @@ export function Sidebar() {
           {!collapsed && <span className="flex-1 truncate">Dashboard</span>}
         </Link>
 
-        {/* 2. ROLE-SPECIFIC ITEMS */}
-        {role === "executive" ? (
-          /* ─── EXECUTIVE MENU ─── */
-          <>
-            {/* My Schools */}
-            <Link
-              href="/dashboard/schools"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/schools")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "My Schools" : undefined}
-            >
-              <School className="h-5 w-5 shrink-0" />
-              {!collapsed && (
-                <>
-                  <span className="flex-1 truncate">My Schools</span>
-                  <span className="rounded-full bg-zinc-100 dark:bg-[#20202c] px-2 py-0.5 text-[10px] font-semibold text-zinc-700 dark:text-zinc-300">
-                    201
-                  </span>
-                </>
-              )}
-            </Link>
-
-            {/* Planning (Collapsible with Today, This Week, This Month) */}
-            <div className="space-y-0.5">
-              <button
-                onClick={() => setPlanningOpen(!planningOpen)}
-                className="w-full group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                title={collapsed ? "Planning" : undefined}
-              >
-                <div className="flex items-center gap-3">
-                  <CalendarDays className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Planning</span>}
-                </div>
-                {!collapsed && (
-                  planningOpen ? <ChevronDown className="h-4 w-4 text-zinc-400" /> : <ChevronRight className="h-4 w-4 text-zinc-400" />
-                )}
-              </button>
-
-              {!collapsed && planningOpen && (
-                <div className="ml-6 space-y-1 pl-2 border-l border-zinc-200 dark:border-[#242434]">
-                  <Link
-                    href="/dashboard/itinerary?tab=today"
-                    className={cn(
-                      "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
-                      pathname === "/dashboard/itinerary"
-                        ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
-                        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
-                    )}
-                  >
-                    Today
-                  </Link>
-                  <Link
-                    href="/dashboard/itinerary?tab=weekly"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    This Week
-                  </Link>
-                  <Link
-                    href="/dashboard/itinerary?tab=monthly"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    This Month
-                  </Link>
-                </div>
-              )}
+        {/* 2. NAVIGATION ITEMS (Consolidated 6-Module Architecture) */}
+        {/* Schools (Master Tracker & Ownership) */}
+        <div className="space-y-0.5">
+          <button
+            onClick={() => setSchoolsOpen(!schoolsOpen)}
+            className="w-full group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            title={collapsed ? "Schools" : undefined}
+          >
+            <div className="flex items-center gap-3">
+              <School className="h-4 w-4 shrink-0 text-[#990000] dark:text-[#ff8080]" />
+              {!collapsed && <span>Schools</span>}
             </div>
+            {!collapsed && (
+              schoolsOpen ? <ChevronDown className="h-3.5 w-3.5 text-zinc-400" /> : <ChevronRight className="h-3.5 w-3.5 text-zinc-400" />
+            )}
+          </button>
 
-            {/* Visit Log */}
-            <Link
-              href="/dashboard/visits"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/visits")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "Visit Log" : undefined}
-            >
-              <ClipboardList className="h-5 w-5 shrink-0" />
-              {!collapsed && (
-                <>
-                  <span className="flex-1 truncate">Visit Log</span>
-                  <span className="rounded-full bg-zinc-100 dark:bg-[#20202c] px-2 py-0.5 text-[10px] font-semibold text-zinc-700 dark:text-zinc-300">
-                    211
-                  </span>
-                </>
-              )}
-            </Link>
-
-            {/* Follow-ups */}
-            <Link
-              href="/dashboard/followups"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/followups")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "Follow-ups" : undefined}
-            >
-              <CheckSquare className="h-5 w-5 shrink-0" />
-              {!collapsed && (
-                <>
-                  <span className="flex-1 truncate">Follow-ups</span>
-                  <span className="rounded-full bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-700/50 px-2 py-0.5 text-[10px] font-semibold text-rose-800 dark:text-rose-300">
-                    15
-                  </span>
-                </>
-              )}
-            </Link>
-
-            {/* Divider */}
-            <div className="my-2 border-t border-zinc-200 dark:border-[#20202c]" />
-
-            {/* Reports */}
-            <Link
-              href="/dashboard/reports"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/reports")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "Reports" : undefined}
-            >
-              <BarChart3 className="h-5 w-5 shrink-0" />
-              {!collapsed && <span className="flex-1 truncate">Reports</span>}
-            </Link>
-
-            {/* My Analytics */}
-            <Link
-              href="/dashboard/analytics"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/analytics")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "My Analytics" : undefined}
-            >
-              <TrendingUp className="h-5 w-5 shrink-0" />
-              {!collapsed && <span className="flex-1 truncate">My Analytics</span>}
-            </Link>
-          </>
-        ) : (
-          /* ─── MANAGER MENU ─── */
-          <>
-            {/* Team */}
-            <Link
-              href="/dashboard/team"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/team")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "Team" : undefined}
-            >
-              <Users className="h-5 w-5 shrink-0" />
-              {!collapsed && (
-                <>
-                  <span className="flex-1 truncate">Team</span>
-                  <span className="rounded-full bg-zinc-100 dark:bg-[#20202c] px-2 py-0.5 text-[10px] font-semibold text-zinc-700 dark:text-zinc-300">
-                    6
-                  </span>
-                </>
-              )}
-            </Link>
-
-            {/* Schools (Master Database, Ownership, Access Requests) */}
-            <div className="space-y-0.5">
-              <button
-                onClick={() => setSchoolsOpen(!schoolsOpen)}
-                className="w-full group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                title={collapsed ? "Schools" : undefined}
-              >
-                <div className="flex items-center gap-3">
-                  <School className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Schools</span>}
-                </div>
-                {!collapsed && (
-                  schoolsOpen ? <ChevronDown className="h-4 w-4 text-zinc-400" /> : <ChevronRight className="h-4 w-4 text-zinc-400" />
+          {!collapsed && schoolsOpen && (
+            <div className="ml-6 space-y-0.5 pl-2 border-l border-zinc-200 dark:border-[#242434]">
+              <Link
+                href="/dashboard/schools"
+                className={cn(
+                  "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  pathname === "/dashboard/schools"
+                    ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
                 )}
-              </button>
-
-              {!collapsed && schoolsOpen && (
-                <div className="ml-6 space-y-1 pl-2 border-l border-zinc-200 dark:border-[#242434]">
-                  <Link
-                    href="/dashboard/schools"
-                    className={cn(
-                      "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
-                      pathname === "/dashboard/schools"
-                        ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
-                        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
-                    )}
-                  >
-                    Master Database
-                  </Link>
-                  <Link
-                    href="/dashboard/schools?view=ownership"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    Ownership
-                  </Link>
-                  <Link
-                    href="/dashboard/schools?view=requests"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    Access Requests
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Planning (Today, This Week, This Month) */}
-            <div className="space-y-0.5">
-              <button
-                onClick={() => setPlanningOpen(!planningOpen)}
-                className="w-full group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                title={collapsed ? "Planning" : undefined}
               >
-                <div className="flex items-center gap-3">
-                  <CalendarDays className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Planning</span>}
-                </div>
-                {!collapsed && (
-                  planningOpen ? <ChevronDown className="h-4 w-4 text-zinc-400" /> : <ChevronRight className="h-4 w-4 text-zinc-400" />
+                Master Tracker (201)
+              </Link>
+              <Link
+                href="/dashboard/schools?view=ownership"
+                className={cn(
+                  "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  pathname.includes("ownership")
+                    ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
                 )}
-              </button>
-
-              {!collapsed && planningOpen && (
-                <div className="ml-6 space-y-1 pl-2 border-l border-zinc-200 dark:border-[#242434]">
-                  <Link
-                    href="/dashboard/management"
-                    className={cn(
-                      "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
-                      pathname === "/dashboard/management"
-                        ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
-                        : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
-                    )}
-                  >
-                    Today & Next Field
-                  </Link>
-                  <Link
-                    href="/dashboard/itinerary?tab=weekly"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    This Week
-                  </Link>
-                  <Link
-                    href="/dashboard/itinerary?tab=monthly"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    This Month
-                  </Link>
-                </div>
-              )}
-            </div>
-
-            {/* Activity (Visit Log, Follow-ups) */}
-            <div className="space-y-0.5">
-              <button
-                onClick={() => setActivityOpen(!activityOpen)}
-                className="w-full group flex items-center justify-between rounded-xl px-3 py-2.5 text-sm font-medium text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
-                title={collapsed ? "Activity" : undefined}
               >
-                <div className="flex items-center gap-3">
-                  <ClipboardList className="h-5 w-5 shrink-0" />
-                  {!collapsed && <span>Activity</span>}
-                </div>
-                {!collapsed && (
-                  activityOpen ? <ChevronDown className="h-4 w-4 text-zinc-400" /> : <ChevronRight className="h-4 w-4 text-zinc-400" />
+                Executive Ownership
+              </Link>
+              <Link
+                href="/dashboard/schools?view=requests"
+                className={cn(
+                  "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  pathname.includes("requests")
+                    ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
                 )}
-              </button>
-
-              {!collapsed && activityOpen && (
-                <div className="ml-6 space-y-1 pl-2 border-l border-zinc-200 dark:border-[#242434]">
-                  <Link
-                    href="/dashboard/visits"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    Visit Log
-                  </Link>
-                  <Link
-                    href="/dashboard/followups"
-                    className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
-                  >
-                    Follow-ups
-                  </Link>
-                </div>
-              )}
+              >
+                Access Requests
+              </Link>
             </div>
+          )}
+        </div>
 
-            {/* Divider */}
-            <div className="my-2 border-t border-zinc-200 dark:border-[#20202c]" />
+        {/* Planning (Daily, Weekly, Monthly) */}
+        <div className="space-y-0.5">
+          <button
+            onClick={() => setPlanningOpen(!planningOpen)}
+            className="w-full group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            title={collapsed ? "Planning" : undefined}
+          >
+            <div className="flex items-center gap-3">
+              <CalendarDays className="h-4 w-4 shrink-0 text-[#990000] dark:text-[#ff8080]" />
+              {!collapsed && <span>Planning</span>}
+            </div>
+            {!collapsed && (
+              planningOpen ? <ChevronDown className="h-3.5 w-3.5 text-zinc-400" /> : <ChevronRight className="h-3.5 w-3.5 text-zinc-400" />
+            )}
+          </button>
 
-            {/* Reports */}
-            <Link
-              href="/dashboard/reports"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/reports")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "Reports" : undefined}
-            >
-              <BarChart3 className="h-5 w-5 shrink-0" />
-              {!collapsed && <span className="flex-1 truncate">Reports</span>}
-            </Link>
+          {!collapsed && planningOpen && (
+            <div className="ml-6 space-y-0.5 pl-2 border-l border-zinc-200 dark:border-[#242434]">
+              <Link
+                href="/dashboard/itinerary?tab=daily"
+                className={cn(
+                  "block rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  pathname === "/dashboard/itinerary" && !pathname.includes("weekly") && !pathname.includes("monthly")
+                    ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+                )}
+              >
+                Daily Itinerary
+              </Link>
+              <Link
+                href="/dashboard/itinerary?tab=weekly"
+                className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+              >
+                Weekly Plan
+              </Link>
+              <Link
+                href="/dashboard/itinerary?tab=monthly"
+                className="block rounded-lg px-2.5 py-1.5 text-xs font-medium text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200 transition-colors"
+              >
+                Monthly Route
+              </Link>
+            </div>
+          )}
+        </div>
 
-            {/* Analytics */}
-            <Link
-              href="/dashboard/analytics"
-              className={cn(
-                "group relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-medium transition-all duration-150",
-                pathname.startsWith("/dashboard/analytics")
-                  ? "bg-[#990000] text-white font-semibold shadow-lg shadow-[#990000]/25"
-                  : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
-              )}
-              title={collapsed ? "Analytics" : undefined}
-            >
-              <TrendingUp className="h-5 w-5 shrink-0" />
-              {!collapsed && <span className="flex-1 truncate">Analytics</span>}
-            </Link>
-          </>
-        )}
+        {/* Activity (Visit Log, Follow-ups) */}
+        <div className="space-y-0.5">
+          <button
+            onClick={() => setActivityOpen(!activityOpen)}
+            className="w-full group flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100 transition-colors"
+            title={collapsed ? "Activity" : undefined}
+          >
+            <div className="flex items-center gap-3">
+              <ClipboardList className="h-4 w-4 shrink-0 text-[#990000] dark:text-[#ff8080]" />
+              {!collapsed && <span>Activity</span>}
+            </div>
+            {!collapsed && (
+              activityOpen ? <ChevronDown className="h-3.5 w-3.5 text-zinc-400" /> : <ChevronRight className="h-3.5 w-3.5 text-zinc-400" />
+            )}
+          </button>
+
+          {!collapsed && activityOpen && (
+            <div className="ml-6 space-y-0.5 pl-2 border-l border-zinc-200 dark:border-[#242434]">
+              <Link
+                href="/dashboard/visits"
+                className={cn(
+                  "flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  pathname.startsWith("/dashboard/visits")
+                    ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+                )}
+              >
+                <span>Visit Log</span>
+                <span className="rounded-full bg-zinc-100 dark:bg-[#20202c] px-1.5 py-0.2 text-[10px] font-semibold text-zinc-600 dark:text-zinc-300">
+                  211
+                </span>
+              </Link>
+              <Link
+                href="/dashboard/followups"
+                className={cn(
+                  "flex items-center justify-between rounded-lg px-2.5 py-1.5 text-xs font-medium transition-colors",
+                  pathname.startsWith("/dashboard/followups")
+                    ? "text-[#990000] dark:text-[#ff6666] font-semibold bg-rose-50 dark:bg-[#990000]/10"
+                    : "text-zinc-600 dark:text-zinc-400 hover:text-zinc-900 dark:hover:text-zinc-200"
+                )}
+              >
+                <span>Follow-ups</span>
+                <span className="rounded-full bg-rose-100 dark:bg-rose-950/60 border border-rose-300 dark:border-rose-700/50 px-1.5 py-0.2 text-[10px] font-semibold text-rose-800 dark:text-rose-300">
+                  18
+                </span>
+              </Link>
+            </div>
+          )}
+        </div>
+
+        {/* Reports (Daily, Weekly, Monthly, Custom) */}
+        <div className="space-y-0.5">
+          <Link
+            href="/dashboard/reports"
+            className={cn(
+              "group relative flex items-center justify-between rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
+              pathname.startsWith("/dashboard/reports")
+                ? "bg-[#990000] text-white font-bold shadow-md shadow-[#990000]/25"
+                : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
+            )}
+            title={collapsed ? "Reports" : undefined}
+          >
+            <div className="flex items-center gap-3">
+              <BarChart3 className="h-4 w-4 shrink-0" />
+              {!collapsed && <span>Reports</span>}
+            </div>
+            {!collapsed && (
+              <span className="text-[10px] opacity-75">D / W / M</span>
+            )}
+          </Link>
+        </div>
+
+        {/* Analytics */}
+        <Link
+          href="/dashboard/analytics"
+          className={cn(
+            "group relative flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
+            pathname.startsWith("/dashboard/analytics")
+              ? "bg-[#990000] text-white font-bold shadow-md shadow-[#990000]/25"
+              : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
+          )}
+          title={collapsed ? "Analytics" : undefined}
+        >
+          <TrendingUp className="h-4 w-4 shrink-0" />
+          {!collapsed && <span className="flex-1 truncate">Analytics</span>}
+        </Link>
+
+        {/* Management (Tomorrow's view, collision oversight, sheet sync) */}
+        <Link
+          href="/dashboard/management"
+          className={cn(
+            "group relative flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-semibold transition-all duration-150",
+            pathname.startsWith("/dashboard/management")
+              ? "bg-[#990000] text-white font-bold shadow-md shadow-[#990000]/25"
+              : "text-zinc-600 dark:text-zinc-400 hover:bg-zinc-100 dark:hover:bg-[#181822] hover:text-zinc-900 dark:hover:text-zinc-100"
+          )}
+          title={collapsed ? "Management" : undefined}
+        >
+          <Shield className="h-4 w-4 shrink-0" />
+          {!collapsed && (
+            <>
+              <span className="flex-1 truncate">Management</span>
+              <span className="rounded bg-zinc-200 dark:bg-[#20202c] px-1.5 py-0.5 text-[9px] font-bold text-zinc-700 dark:text-zinc-300">
+                NEXT-DAY
+              </span>
+            </>
+          )}
+        </Link>
+
 
         {/* Divider */}
         <div className="my-2 border-t border-zinc-200 dark:border-[#20202c]" />
