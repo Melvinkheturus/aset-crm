@@ -128,14 +128,30 @@ export function AddSchoolModal({ isOpen, onClose, onSuccess }: AddSchoolModalPro
               className="w-full rounded-xl border border-[#272736] bg-[#181822] px-3 py-2 text-zinc-100 focus:border-[#990000] focus:outline-none"
             />
             {possibleDuplicate && (
-              <div className="mt-2 flex items-center justify-between rounded-xl border border-amber-500/40 bg-amber-950/30 p-2.5 text-[11px] text-amber-200">
-                <div className="flex items-center gap-2">
-                  <span className="text-amber-400 font-bold">⚠️ Warning:</span>
-                  <span>Similar school exists: <strong>{possibleDuplicate.name}</strong> ({possibleDuplicate.area})</span>
+              <div className="mt-2 rounded-xl border border-amber-500/40 bg-amber-950/30 p-3 text-[11px] text-amber-200 space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-amber-400 font-bold flex items-center gap-1.5">
+                    <span>⚠️ Possible duplicate found</span>
+                  </span>
+                  <span className="font-mono text-[10px] text-amber-400 font-bold">
+                    {possibleDuplicate.school_code}
+                  </span>
                 </div>
-                <span className="font-mono text-[10px] text-amber-400 font-bold">
-                  {possibleDuplicate.school_code}
-                </span>
+                <div className="text-xs">
+                  <strong>{possibleDuplicate.name}</strong> • {possibleDuplicate.area}
+                </div>
+                <div className="pt-1 flex items-center justify-end">
+                  <button
+                    type="button"
+                    onClick={() => {
+                      alert(`Selected existing school: [${possibleDuplicate.school_code}] ${possibleDuplicate.name}`);
+                      onClose();
+                    }}
+                    className="rounded-lg bg-amber-600 hover:bg-amber-700 text-white font-bold px-3 py-1 text-xs transition-colors shadow-sm"
+                  >
+                    [ Use Existing School ]
+                  </button>
+                </div>
               </div>
             )}
           </div>

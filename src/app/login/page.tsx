@@ -3,7 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { ArrowLeft, Lock, Mail, Shield, User, ArrowRight, CheckCircle2, Sparkles } from "lucide-react";
+import { ArrowLeft, Lock, Mail, Shield, User, ArrowRight, CheckCircle2, Sparkles, Key } from "lucide-react";
 import { useRole, UserRole } from "@/context/role-context";
 import { SignIn } from "@clerk/nextjs";
 
@@ -12,9 +12,8 @@ export default function LoginPage() {
   const { setRole } = useRole();
 
   const [activeMode, setActiveMode] = useState<"clerk" | "preset">("clerk");
-  const [selectedRole, setSelectedRole] = useState<UserRole>("executive");
+  const [selectedRole, setSelectedRole] = useState<UserRole>("EXECUTIVE");
   const [email, setEmail] = useState("manikandan@aset.edu.in");
-  const [password, setPassword] = useState("••••••••••••");
   const [loading, setLoading] = useState(false);
 
   const handleRoleSelect = (role: UserRole, userEmail: string) => {
@@ -29,8 +28,12 @@ export default function LoginPage() {
 
     setTimeout(() => {
       setLoading(false);
-      router.push("/dashboard");
-    }, 500);
+      if (selectedRole === "SUPER_ADMIN") {
+        router.push("/dashboard/admin");
+      } else {
+        router.push("/dashboard");
+      }
+    }, 400);
   };
 
   return (
@@ -74,27 +77,30 @@ export default function LoginPage() {
       </div>
 
       {activeMode === "clerk" ? (
-        /* CLERK OFFICIAL SIGN IN COMPONENT */
-        <div className="flex flex-col items-center">
+        /* CLERK OFFICIAL SIGN IN COMPONENT (NO PUBLIC SIGNUP) */
+        <div className="flex flex-col items-center w-full max-w-md">
           <SignIn
             routing="hash"
             fallbackRedirectUrl="/dashboard"
             appearance={{
               elements: {
-                rootBox: "w-full max-w-md",
-                card: "bg-[#0e0e14] border border-[#20202c] shadow-2xl rounded-3xl p-6",
+                rootBox: "w-full",
+                card: "bg-[#0e0e14] border border-[#20202c] shadow-2xl rounded-3xl p-6 w-full",
                 headerTitle: "text-white font-bold",
                 headerSubtitle: "text-zinc-400 text-xs",
                 formButtonPrimary: "bg-[#990000] hover:bg-[#b91c1c] text-white",
                 formFieldLabel: "text-zinc-300 text-xs",
                 formFieldInput: "bg-[#14141c] border-[#22222f] text-white rounded-xl",
-                footerActionLink: "text-[#ff6666] hover:underline"
+                footerAction: "hidden", // STRICTLY HIDE PUBLIC SIGNUP LINK
               }
             }}
           />
-          <p className="text-[11px] text-zinc-500 mt-4">
-            Connected to Clerk App: <code className="text-zinc-400">app_3IqyZVI1s3HrQnS5eMKckgehB3l</code>
-          </p>
+          <div className="flex items-center justify-between w-full px-2 mt-4 text-xs">
+            <Link href="/recovery" className="text-zinc-400 hover:text-white transition-colors">
+              Forgot password?
+            </Link>
+            <span className="text-[11px] text-zinc-500">Authorized Personnel Only</span>
+          </div>
         </div>
       ) : (
         /* QUICK ROLE PRESET LOGIN */
@@ -103,9 +109,9 @@ export default function LoginPage() {
             <div className="inline-flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[#990000] to-[#550000] text-white font-black text-xl border border-rose-500/40 shadow-lg shadow-[#990000]/30 mb-2">
               A
             </div>
-            <h1 className="text-2xl font-black text-white tracking-tight">Role-Based Demo Access</h1>
+            <h1 className="text-2xl font-black text-white tracking-tight">ASET CRM Login</h1>
             <p className="text-xs text-zinc-400">
-              Quickly test the CRM under different institutional permissions.
+              Select persona to test with simulated role permissions.
             </p>
           </div>
 
@@ -113,37 +119,53 @@ export default function LoginPage() {
             <label className="text-[11px] font-bold text-zinc-400 uppercase tracking-wider block">
               Choose Persona
             </label>
-            <div className="grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-3 gap-2">
               <button
                 type="button"
-                onClick={() => handleRoleSelect("executive", "manikandan@aset.edu.in")}
-                className={`p-3 rounded-xl border text-left transition-all ${
-                  selectedRole === "executive"
+                onClick={() => handleRoleSelect("EXECUTIVE", "manikandan@aset.edu.in")}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  selectedRole === "EXECUTIVE"
                     ? "bg-[#990000]/20 border-[#990000] text-white"
                     : "bg-[#14141c] border-[#22222f] text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
                 }`}
               >
-                <div className="flex items-center gap-2 font-bold text-xs">
-                  <User className="h-3.5 w-3.5 text-[#ff6666]" />
-                  <span>Executive</span>
+                <div className="flex items-center gap-1.5 font-bold text-xs">
+                  <User className="h-3 w-3 text-[#ff6666]" />
+                  <span>Exec</span>
                 </div>
-                <p className="text-[10px] text-zinc-500 mt-0.5">Manikandan (Field)</p>
+                <p className="text-[10px] text-zinc-500 mt-0.5 truncate">Manikandan</p>
               </button>
 
               <button
                 type="button"
-                onClick={() => handleRoleSelect("manager", "director@aset.edu.in")}
-                className={`p-3 rounded-xl border text-left transition-all ${
-                  selectedRole === "manager"
+                onClick={() => handleRoleSelect("MANAGER", "director@aset.edu.in")}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  selectedRole === "MANAGER"
                     ? "bg-[#990000]/20 border-[#990000] text-white"
                     : "bg-[#14141c] border-[#22222f] text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
                 }`}
               >
-                <div className="flex items-center gap-2 font-bold text-xs">
-                  <Shield className="h-3.5 w-3.5 text-[#ff6666]" />
+                <div className="flex items-center gap-1.5 font-bold text-xs">
+                  <Shield className="h-3 w-3 text-[#ff6666]" />
                   <span>Manager</span>
                 </div>
-                <p className="text-[10px] text-zinc-500 mt-0.5">Outreach Director</p>
+                <p className="text-[10px] text-zinc-500 mt-0.5 truncate">Director</p>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => handleRoleSelect("SUPER_ADMIN", "admin@aset.edu.in")}
+                className={`p-2.5 rounded-xl border text-left transition-all ${
+                  selectedRole === "SUPER_ADMIN"
+                    ? "bg-[#990000]/20 border-[#990000] text-white"
+                    : "bg-[#14141c] border-[#22222f] text-zinc-400 hover:border-zinc-700 hover:text-zinc-200"
+                }`}
+              >
+                <div className="flex items-center gap-1.5 font-bold text-xs">
+                  <Key className="h-3 w-3 text-purple-400" />
+                  <span>Admin</span>
+                </div>
+                <p className="text-[10px] text-zinc-500 mt-0.5 truncate">Super Admin</p>
               </button>
             </div>
           </div>
@@ -165,15 +187,18 @@ export default function LoginPage() {
             <button
               type="submit"
               disabled={loading}
-              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#990000] hover:bg-[#b91c1c] py-3 text-xs font-bold text-white shadow-xl shadow-[#990000]/30 transition-all hover:scale-[1.01] border border-rose-500/30 disabled:opacity-60"
+              className="w-full flex items-center justify-center gap-2 rounded-xl bg-[#990000] hover:bg-[#b91c1c] py-3 font-bold text-white shadow-lg shadow-[#990000]/30 transition-all hover:scale-[1.01] disabled:opacity-50"
             >
-              <span>{loading ? "Launching Session..." : "Enter CRM Dashboard"}</span>
+              <span>{loading ? "Authenticating..." : `Login as ${selectedRole}`}</span>
               <ArrowRight className="h-4 w-4" />
             </button>
           </form>
 
-          <div className="pt-2 text-center text-[11px] text-zinc-500 border-t border-[#1a1a26]">
-            Authorized ASET personnel only · Session secured
+          <div className="flex items-center justify-between pt-2 border-t border-[#1c1c28] text-xs">
+            <Link href="/recovery" className="text-zinc-400 hover:text-white transition-colors">
+              Forgot password?
+            </Link>
+            <span className="text-[11px] text-zinc-500">No public signup</span>
           </div>
         </div>
       )}

@@ -272,31 +272,42 @@ export function Sidebar() {
         </button>
       </div>
 
-      {/* Role Toggle Switcher */}
+      {/* Role Toggle Switcher (3 Roles) */}
       {!collapsed && (
         <div className="px-3 pt-3">
           <div className="flex items-center rounded-xl bg-zinc-100 dark:bg-[#14141c] p-1 border border-zinc-200 dark:border-[#22222f]">
             <button
-              onClick={() => setRole("executive")}
+              onClick={() => setRole("EXECUTIVE")}
               className={cn(
-                "flex-1 rounded-lg py-1 text-[11px] font-semibold transition-all text-center",
-                role === "executive"
+                "flex-1 rounded-lg py-1 text-[10px] font-bold transition-all text-center",
+                role === "EXECUTIVE"
                   ? "bg-[#990000] text-white shadow-sm"
                   : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-200"
               )}
             >
-              Executive
+              Exec
             </button>
             <button
-              onClick={() => setRole("manager")}
+              onClick={() => setRole("MANAGER")}
               className={cn(
-                "flex-1 rounded-lg py-1 text-[11px] font-semibold transition-all text-center",
-                role === "manager"
+                "flex-1 rounded-lg py-1 text-[10px] font-bold transition-all text-center",
+                role === "MANAGER"
                   ? "bg-[#990000] text-white shadow-sm"
                   : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-200"
               )}
             >
               Manager
+            </button>
+            <button
+              onClick={() => setRole("SUPER_ADMIN")}
+              className={cn(
+                "flex-1 rounded-lg py-1 text-[10px] font-bold transition-all text-center",
+                role === "SUPER_ADMIN"
+                  ? "bg-[#990000] text-white shadow-sm"
+                  : "text-zinc-600 dark:text-zinc-400 hover:text-black dark:hover:text-zinc-200"
+              )}
+            >
+              Admin
             </button>
           </div>
         </div>
@@ -304,6 +315,23 @@ export function Sidebar() {
 
       {/* Navigation Items */}
       <div className="flex-1 overflow-y-auto py-3 px-2 space-y-1">
+        {/* Super Admin Console Link (if role is SUPER_ADMIN) */}
+        {role === "SUPER_ADMIN" && (
+          <Link
+            href="/dashboard/admin"
+            className={cn(
+              "group relative flex items-center gap-3 rounded-xl px-3 py-2 text-xs font-bold transition-all duration-150 mb-2 border border-purple-500/30",
+              pathname.startsWith("/dashboard/admin")
+                ? "bg-purple-700 text-white shadow-md shadow-purple-900/30"
+                : "bg-purple-950/20 text-purple-700 dark:text-purple-300 hover:bg-purple-900/30"
+            )}
+            title={collapsed ? "Super Admin Console" : undefined}
+          >
+            <Shield className="h-4 w-4 shrink-0 text-purple-400" />
+            {!collapsed && <span className="flex-1 truncate">Admin Console</span>}
+          </Link>
+        )}
+
         {/* 1. DASHBOARD (Primary dominant starting point) */}
         <Link
           href="/dashboard"
