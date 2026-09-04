@@ -5,6 +5,7 @@ import { usePathname } from "next/navigation";
 import { ArrowRight, ShieldCheck } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { Show, SignInButton, UserButton } from "@clerk/nextjs";
 
 export function PublicHeader() {
   const pathname = usePathname();
@@ -56,13 +57,27 @@ export function PublicHeader() {
         <div className="flex items-center gap-3">
           <ThemeToggle />
 
-          <Link
-            href="/login"
-            className="flex items-center gap-2 rounded-xl bg-[#990000] hover:bg-[#b91c1c] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#990000]/30 transition-all hover:scale-[1.02] border border-rose-500/30"
-          >
-            <span>Access CRM</span>
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+          <Show when="signed-out">
+            <SignInButton mode="modal">
+              <button className="flex items-center gap-2 rounded-xl bg-[#990000] hover:bg-[#b91c1c] px-4 py-2 text-xs font-semibold text-white shadow-lg shadow-[#990000]/30 transition-all hover:scale-[1.02] border border-rose-500/30">
+                <span>Access CRM</span>
+                <ArrowRight className="h-3.5 w-3.5" />
+              </button>
+            </SignInButton>
+          </Show>
+
+          <Show when="signed-in">
+            <div className="flex items-center gap-3">
+              <Link
+                href="/dashboard"
+                className="hidden sm:flex items-center gap-1.5 rounded-xl border border-zinc-200 dark:border-[#28283a] bg-zinc-100 dark:bg-[#14141c] px-3 py-1.5 text-xs font-semibold text-zinc-900 dark:text-zinc-200 hover:bg-[#990000] hover:text-white transition-colors"
+              >
+                <span>Dashboard</span>
+                <ArrowRight className="h-3 w-3" />
+              </Link>
+              <UserButton />
+            </div>
+          </Show>
         </div>
       </div>
     </header>

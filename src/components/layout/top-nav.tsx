@@ -3,8 +3,8 @@
 import { useState } from "react";
 import { Search, Plus, Download, CheckCircle2, RefreshCw, User, Shield } from "lucide-react";
 import { useRole } from "@/context/role-context";
-
 import { ThemeToggle } from "@/components/layout/theme-toggle";
+import { UserButton } from "@clerk/nextjs";
 
 interface TopNavProps {
   onLogVisitClick?: () => void;
@@ -84,6 +84,11 @@ export function TopNav({ onLogVisitClick }: TopNavProps) {
             <span>Log Visit</span>
           </button>
         )}
+
+        {/* Clerk User Profile Button */}
+        <div className="pl-1">
+          <UserButton />
+        </div>
       </div>
     </header>
   );

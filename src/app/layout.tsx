@@ -9,6 +9,7 @@ export const metadata: Metadata = {
   description: "Comprehensive outreach management, visit itinerary, and reporting system for ASET.",
 };
 
+import { ClerkProvider } from "@clerk/nextjs";
 import { Providers } from "@/components/providers";
 
 export default function RootLayout({
@@ -19,7 +20,9 @@ export default function RootLayout({
   return (
     <html lang="en" className="dark">
       <body className={`${inter.variable} font-sans bg-[#09090c] text-[#f4f4f6] antialiased`}>
-        <Providers>{children}</Providers>
+        <ClerkProvider>
+          <Providers>{children}</Providers>
+        </ClerkProvider>
       </body>
     </html>
   );
